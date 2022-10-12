@@ -158,6 +158,10 @@ searchBtn.addEventListener('click', () => {
 	let newCity = citySearch.value;
 	if (newCity) {
 		citySearch.value = '';
+		newCity = newCity.toLowerCase();
+		console.log(newCity);
+		newCity = newCity.substring(0, 1).toUpperCase() + newCity.substring(1);  
+		console.log(newCity);
 		cityWeatherForecast(newCity);
 	}
 });

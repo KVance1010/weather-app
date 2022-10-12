@@ -1,14 +1,14 @@
-# 06 Server-Side APIs: Weather Dashboard
+# Weather Dashboard: Server-Side APIs
 
-## Your Task
+## Overview
 
-Third-party APIs allow developers to access their data and functionality by making requests with specific parameters to a URL. Developers are often tasked with retrieving data from another application's API and using it in the context of their own. Your challenge is to build a weather dashboard that will run in the browser and feature dynamically updated HTML and CSS.
+Weather application that shows the current weather and a five day forecast for the chosen city.
 
-Use the [5 Day Weather Forecast](https://openweathermap.org/forecast5) to retrieve weather data for cities. The base URL should look like the following: `https://api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&appid={API key}`. After registering for a new API key, you may need to wait up to 2 hours for that API key to activate.
+### learning points
 
-**Hint**: Using the 5 Day Weather Forecast API, you'll notice that you will need to pass in coordinates instead of just a city name. Using the OpenWeatherMap APIs, how could we retrieve geographical coordinates given a city name?
+- leverage a third-party API to collect server-side data and use it to displays information to the website
+- Create elements dynamically using JavaScript 
 
-You will use `localStorage` to store any persistent data. For more information on how to work with the OpenWeather API, refer to the [Full-Stack Blog on how to use API keys](https://coding-boot-camp.github.io/full-stack/apis/how-to-use-api-keys).
 
 ## User Story
 
@@ -32,71 +32,63 @@ WHEN I click on a city in the search history
 THEN I am again presented with current and future conditions for that city
 ```
 
-## Mock-Up
+## Technologies
 
-The following image shows the web application's appearance and functionality:
+- **Server Side APIs**
+- **Fetch**
+- **JavaScript**
+- **HTML**
+- **CSS**
 
-![The weather app includes a search option, a list of cities, and a five-day forecast and current weather conditions for Atlanta.](./Assets/06-server-side-apis-homework-demo.png)
+## Screenshot/mockup
 
-## Grading Requirements
+![Schedule at the start of the day](./assets/images/weather-app.jpg)
+App with 5 day forecast
 
-> **Note**: If a Challenge assignment submission is marked as “0”, it is considered incomplete and will not count towards your graduation requirements. Examples of incomplete submissions include the following:
->
-> * A repository that has no code
->
-> * A repository that includes a unique name but nothing else
->
-> * A repository that includes only a README file but nothing else
->
-> * A repository that only includes starter code
+## CodeSnippets
 
-This Challenge is graded based on the following criteria: 
+### Dynamically creating the weather cards for a five day forecast
 
-### Technical Acceptance Criteria: 40%
+```JavaScript
+for (let i = 1; i < 6; i++, j += 8) {
+		let card = document.createElement('div');
+		card.setAttribute('class', 'card');
+		let date = document.createElement('div');
+		date.textContent = moment().add(i, 'days').format('L');
+		let weatherIcon = document.createElement('img');
+		weatherIcon.setAttribute('src', 'https://openweathermap.org/img/wn/' + cityData.list[j].weather[0].icon + '@2x.png');
+		weatherIcon.setAttribute('alt', 'weatherIcon');
+		let temp = document.createElement('div');
+		temp.textContent =
+			'Temp: ' +
+			cityData.list[j].main.temp +
+			' ' +
+			String.fromCharCode(176) +
+			'F';
+		let wind = document.createElement('div');
+		wind.textContent = 'Wind: ' + cityData.list[j].wind.speed + ' MPH';
+		let humidity = document.createElement('div');
+		humidity.textContent = 'Humidity: ' + cityData.list[j].main.humidity;
 
-* Satisfies all of the above acceptance criteria plus the following:
+		card.appendChild(date);
+		card.appendChild(weatherIcon);
+		card.appendChild(temp);
+		card.appendChild(wind);
+		card.appendChild(humidity);
+		cards.appendChild(card);
+	}
+```
 
-    * Uses the OpenWeather API to retrieve weather data.
+## License
 
-    * Uses `localStorage` to store persistent data.
+Please refer to the LICENSE in the repo.
 
-### Deployment: 32%
+## Links
 
-* Application deployed at live URL.
+### live Link
 
-* Application loads with no errors.
+[Live website] https://kvance1010.github.io/weather-app/
 
-* Application GitHub URL submitted.
+### LinkedIn
 
-* GitHub repository that contains application code.
-
-### Application Quality: 15%
-
-* Application user experience is intuitive and easy to navigate.
-
-* Application user interface style is clean and polished.
-
-* Application resembles the mock-up functionality provided in the Challenge instructions.
-
-### Repository Quality: 13%
-
-* Repository has a unique name.
-
-* Repository follows best practices for file structure and naming conventions.
-
-* Repository follows best practices for class/id naming conventions, indentation, quality comments, etc.
-
-* Repository contains multiple descriptive commit messages.
-
-* Repository contains quality readme file with description, screenshot, and link to deployed application.
-
-## Review
-
-You are required to submit BOTH of the following for review:
-
-* The URL of the functional, deployed application.
-
-* The URL of the GitHub repository. Give the repository a unique name and include a readme describing the project.
-
-- - -
-© 2022 Trilogy Education Services, LLC, a 2U, Inc. brand. Confidential and Proprietary. All Rights Reserved.
+[LinkedIn] https://www.linkedin.com/in/kyle-s-vance
