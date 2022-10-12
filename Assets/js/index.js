@@ -7,6 +7,7 @@ const humidityMain = document.querySelector('#humidityMain');
 const cityList = document.querySelector('.cityList');
 const searchBtn = document.querySelector('.searchBtn');
 const citySearch = document.querySelector('#citySearch');
+const weatherIcon = document.querySelector('#weatherIcon');
 
 /******************************** functions    ***************************/
 
@@ -30,6 +31,8 @@ const cityWeatherForecast = function (city) {
 	const baseUrl = 'https://api.openweathermap.org/data/2.5/forecast?';
 	const apiUrl = baseUrl + 'q=' + city + '&appid=' + apiKey;
 
+	const currentForecast = 'https://api.openweathermap.org/data/2.5/weather?';
+
 	fetch(apiUrl)
 		.then(function (response) {
 			if (response.ok) {
@@ -37,22 +40,38 @@ const cityWeatherForecast = function (city) {
 					let lon = cityData.city.coord.lon;
 					let lat = cityData.city.coord.lat;
 					let lonLatURL =
-						baseUrl +
-						'lat=' +
-						lat +
-						'&lon=' +
-						lon +
-						'&units=imperial&appid=' +
-						apiKey;
-					fetch(lonLatURL).then(function (response) {
+						'lat=' + lat + '&lon=' + lon + '&units=imperial&appid=' + apiKey;
+					fetch(currentForecast + lonLatURL).then(function (response) {
 						if (response.ok) {
 							response.json().then(function (cityData) {
-								localStorageCities(city);
-								displayCity(cityData, city);
+								console.log(cityData);
+								currentCity.textContent =
+									city + ' ' + moment().add(0, 'days').format('L');
+								// weatherIcon.setAttribute('src',);
+								tempMain.textContent =
+									'Temp: ' +
+									cityData.main.temp +
+									' ' +
+									String.fromCharCode(176) +
+									'F';
+								windMain.textContent =
+									'Wind: ' + cityData.wind.speed + ' MPH';
+								humidityMain.textContent =
+									'Humidity: ' + cityData.main.humidity;
 							});
 						} else {
 							alert('Error: ' + response.statusText);
 						}
+						fetch(baseUrl + lonLatURL).then(function (response) {
+							if (response.ok) {
+								response.json().then(function (cityData) {
+									localStorageCities(city);
+									displayCity(cityData, city);
+								});
+							} else {
+								alert('Error: ' + response.statusText);
+							}
+						});
 					});
 				});
 			} else {
@@ -71,7 +90,6 @@ const displayCity = function (cityData, city) {
 		repoContainerEl.textContent = 'No content found.';
 		return;
 	}
-	currentCity.textContent = city + ' ' + moment().add(0, 'days').format('L');
 
 	let j = 5;
 	let child = cards.lastElementChild;
@@ -86,7 +104,12 @@ const displayCity = function (cityData, city) {
 		let date = document.createElement('div');
 		date.textContent = moment().add(i, 'days').format('L');
 		let temp = document.createElement('div');
-		temp.textContent = 'Temp: ' + cityData.list[j].main.temp + ' ' + String.fromCharCode(176) + 'F';
+		temp.textContent =
+			'Temp: ' +
+			cityData.list[j].main.temp +
+			' ' +
+			String.fromCharCode(176) +
+			'F';
 		let wind = document.createElement('div');
 		wind.textContent = 'Wind: ' + cityData.list[j].wind.speed + ' MPH';
 		let humidity = document.createElement('div');
