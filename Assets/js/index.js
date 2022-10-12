@@ -4,7 +4,7 @@ const currentCity = document.querySelector('#displayedCity');
 const tempMain = document.querySelector('#tempMain');
 const windMain = document.querySelector('#windMain');
 const humidityMain = document.querySelector('#humidityMain');
-
+const cityList = document.querySelector('.cityList');
 
 /******************************** functions    ***************************/
 
@@ -14,12 +14,13 @@ let localStorageCities = function (city) {
 	if (cities === null) {
 		cities = [city];
 		localStorage.setItem('cities', JSON.stringify(cities));
-	} else if(cities.indexOf(city) === -1){
+	} else if (cities.indexOf(city) === -1) {
 		cities.push(city);
 		localStorage.setItem('cities', JSON.stringify(cities));
-	}else {
+	} else {
 		return;
-	}};
+	}
+};
 
 // fetch the weather url
 const cityWeatherForecast = function (city) {
@@ -61,6 +62,7 @@ const cityWeatherForecast = function (city) {
 		});
 };
 
+// displays forecast to the html
 const displayCity = function (cityData, city) {
 	console.log(cityData, city);
 	if (city.length === 0) {
@@ -68,7 +70,7 @@ const displayCity = function (cityData, city) {
 		return;
 	}
 	currentCity.textContent = city + ' ' + moment().add(0, 'days').format('L');
-	
+
 	let j = 5;
 	for (let i = 1; i < 6; i++, j += 8) {
 		let card = document.createElement('div');
@@ -88,6 +90,20 @@ const displayCity = function (cityData, city) {
 		card.appendChild(humidity);
 		cards.appendChild(card);
 	}
+	startUp();
+};
+
+// creates the buttons of the different cities selected
+const startUp = function () {
+	let cities = JSON.parse(localStorage.getItem('cities'));
+	if (cities) {
+		for (const city of cities) {
+			let button = document.createElement('button');
+			button.textContent = city;
+			cityList.appendChild(button);
+		}
+	}
 };
 
 cityWeatherForecast('Denver');
+startUp();
