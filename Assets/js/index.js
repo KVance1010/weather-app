@@ -1,5 +1,9 @@
 // global variables
 const cards = document.querySelector('.cards');
+const currentCity = document.querySelector('#displayedCity');
+const tempMain = document.querySelector('#tempMain');
+const windMain = document.querySelector('#windMain');
+const humidityMain = document.querySelector('#humidityMain');
 
 
 /******************************** functions    ***************************/
@@ -17,28 +21,6 @@ const cards = document.querySelector('.cards');
 // 		return;
 // 	}};
 
-// adds dates to the cards
-// const addToDate = function () {
-// 	const mainDate = document.querySelector('#date1');
-// 	const day2 = document.querySelector('.date2');
-// 	const day3 = document.querySelector('.date3');
-// 	const day4 = document.querySelector('.date4');
-// 	const day5 = document.querySelector('.date5');
-// 	const day6 = document.querySelector('.date6');
-
-// 	let currentDate = moment().add(0, 'days').format('L');
-// 	mainDate.textContent = ' ' + currentDate;
-// 	currentDate = moment().add(1, 'days').format('L');
-// 	day2.textContent = currentDate;
-// 	currentDate = moment().add(2, 'days').format('L');
-// 	day3.textContent = currentDate;
-// 	currentDate = moment().add(3, 'days').format('L');
-// 	day4.textContent = currentDate;
-// 	currentDate = moment().add(4, 'days').format('L');
-// 	day5.textContent = currentDate;
-// 	currentDate = moment().add(5, 'days').format('L');
-// 	day6.textContent = currentDate;
-// };
 
 // fetch the weather url
 const cityWeatherForecast = function (city) {
@@ -86,8 +68,11 @@ const displayCity = function (cityData, city) {
 		repoContainerEl.textContent = 'No content found.';
 		return;
 	}
-	let j = 5;
+	currentCity.textContent = city + ' ' + moment().add(0, 'days').format('L');
+	
 
+
+	let j = 5;
 	for (let i = 1; i < 6; i++, j += 8) {
 		let card = document.createElement('div');
 		card.setAttribute('class', 'card');
