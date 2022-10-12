@@ -47,7 +47,7 @@ const cityWeatherForecast = function (city) {
 								console.log(cityData);
 								currentCity.textContent =
 									city + ' ' + moment().add(0, 'days').format('L');
-								// weatherIcon.setAttribute('src',);
+								 weatherIcon.setAttribute('src','https://openweathermap.org/img/wn/' + cityData.weather[0].icon + '@2x.png');
 								tempMain.textContent =
 									'Temp: ' +
 									cityData.main.temp +
@@ -103,6 +103,9 @@ const displayCity = function (cityData, city) {
 		card.setAttribute('class', 'card');
 		let date = document.createElement('div');
 		date.textContent = moment().add(i, 'days').format('L');
+		let weatherIcon = document.createElement('img');
+		weatherIcon.setAttribute('src', 'https://openweathermap.org/img/wn/' + cityData.list[j].weather[0].icon + '@2x.png');
+		weatherIcon.setAttribute('alt', 'weatherIcon');
 		let temp = document.createElement('div');
 		temp.textContent =
 			'Temp: ' +
@@ -116,6 +119,7 @@ const displayCity = function (cityData, city) {
 		humidity.textContent = 'Humidity: ' + cityData.list[j].main.humidity;
 
 		card.appendChild(date);
+		card.appendChild(weatherIcon);
 		card.appendChild(temp);
 		card.appendChild(wind);
 		card.appendChild(humidity);
