@@ -48,6 +48,7 @@ const cityWeatherForecast = function (city) {
 								currentCity.textContent =
 									city + ' ' + moment().add(0, 'days').format('L');
 								 weatherIcon.setAttribute('src','https://openweathermap.org/img/wn/' + cityData.weather[0].icon + '@2x.png');
+								 weatherIcon.setAttribute('alt','Weather Icon');
 								tempMain.textContent =
 									'Temp: ' +
 									cityData.main.temp +
