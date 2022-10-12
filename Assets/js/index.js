@@ -10,18 +10,16 @@ const humidityMain = document.querySelector('#humidityMain');
 
 // checks a local variable and creates a new local variable if one does not exist
 let localStorageCities = function (city) {
-	let cities;
-	cities = JSON.parse(localStorage.getItem(cities));
+	let cities = JSON.parse(localStorage.getItem('cities'));
 	if (cities === null) {
 		cities = [city];
-		localStorage.setItem(cities, JSON.stringify(cities));
-	} else if(cities.indexof(city) === -1){
+		localStorage.setItem('cities', JSON.stringify(cities));
+	} else if(cities.indexOf(city) === -1){
 		cities.push(city);
-		localStorage.setItem(cities, JSON.stringify(cities));
+		localStorage.setItem('cities', JSON.stringify(cities));
 	}else {
 		return;
 	}};
-
 
 // fetch the weather url
 const cityWeatherForecast = function (city) {
@@ -92,4 +90,4 @@ const displayCity = function (cityData, city) {
 	}
 };
 
-cityWeatherForecast('Reno');
+cityWeatherForecast('Denver');
