@@ -1,31 +1,28 @@
-// global variables
-
-// query selectors
-const mainDate = document.querySelector('#date1');
-const day2 = document.querySelector('.date2');
-const day3 = document.querySelector('.date3');
-const day4 = document.querySelector('.date4');
-const day5 = document.querySelector('.date5');
-const day6 = document.querySelector('.date6');
-
+const mainContent = document.querySelector('#mainContent');
 /******************************** functions    ***************************/
 
 // checks a local variable and creates a new local variable if one does not exist
-// const localStorageCities = function(city){
-// let citiesSearched = JSON.parse(localStorage.getItem(city));
-// if (citiesSearched === null) {
-// 	citiesSearched = {
-//     name: '',
-//     wind: '',
-//     temp: '',
-//     humidity: ''
-//   };
-// 	localStorage.setItem('citiesSearched', JSON.stringify(workSchedule));
-// }
-// }
+// const localStorageCities = function (city) {
+// 	let citySearched = JSON.parse(localStorage.getItem(cities));
+// 	if (citySearched === null) {
+// 		citySearched = [city];
+// 		localStorage.setItem(cities, JSON.stringify(citySearched));
+// 	} else if(citySearched.indexof(city) = -1){
+// 		citySearched.push(city);
+// 		localStorage.setItem(cities, JSON.stringify(citySearched));
+// 	}else {
+// 		return;
+// 	}};
 
 // adds dates to the cards
 const addToDate = function () {
+	const mainDate = document.querySelector('#date1');
+	const day2 = document.querySelector('.date2');
+	const day3 = document.querySelector('.date3');
+	const day4 = document.querySelector('.date4');
+	const day5 = document.querySelector('.date5');
+	const day6 = document.querySelector('.date6');
+
 	let currentDate = moment().add(0, 'days').format('L');
 	mainDate.textContent = ' ' + currentDate;
 	currentDate = moment().add(1, 'days').format('L');
@@ -62,12 +59,9 @@ const cityWeatherForecast = function (city) {
 						apiKey;
 					fetch(lonLatURL).then(function (response) {
 						if (response.ok) {
-							console.log(response);
 							response.json().then(function (cityData) {
-								console.log(cityData);
-
-								// localStorageCities(cityData);
-								// displayCity(city);
+								// localStorageCities(city);
+								displayCity(cityData, city);
 							});
 						} else {
 							alert('Error: ' + response.statusText);
@@ -83,40 +77,74 @@ const cityWeatherForecast = function (city) {
 		});
 };
 
-// const displayRepos = function (city) {
-//   addToDate()
+const displayCity = function (cityData, city) {
+	console.log(cityData, city);
+	if (city.length === 0) {
+		repoContainerEl.textContent = 'No content found.';
+		return;
+	}
+	let j = 5;
+	let date;
+		let cityName;
+		let fiveDayTitle;
+		let card;
+		let mainEl;
+		let mainCard;
 
-// 	if (city.length === 0) {
-// 		repoContainerEl.textContent = 'No content found.';
-// 		return;
-// 	}
-// 	console.log(repos.results.length);
-// 	repoCity.textContent = city;
+	for (let i = 1; i < 6; i++, j += 8) {
+		let curDate = 'date' + i;
+		if (i === 1) {
+			mainEl = document.createElement('div');
+			mainEl.setAttribute('class', 'dayOne');
+			mainEl.setAttribute('id', 'dayOne');
+			cityName = document.createElement('div');
+			cityName.setAttribute('id', 'displayedCity');
+			cityName.textContent = city;
+			date = document.createElement('span');
+			date.setAttribute('id', curDate);
+			cityName.appendChild(date);
+			mainEl.appendChild(cityName);
+		} else if (i === 2) {
+			fiveDayTitle = document.createElement('h2');
+			fiveDayTitle.setAttribute('class', 'five_day_title');
+			fiveDayTitle.textContent = '5-Day Forecast';
+			mainContent.appendChild(fiveDayTitle);
+			mainCard = document.createElement('div');
+			mainCard.setAttribute('class', 'cards');
+			card = document.createElement('div');
+			date = document.createElement('div');
+			date.setAttribute('id', curDate);
+		}else{
+			mainCard = document.createElement('div');
+			mainCard.setAttribute('class', 'cards');
+			card = document.createElement('div');
+			date = document.createElement('div');
+			date.setAttribute('id', curDate);
+		}
 
-// 	for (const element of repos.results) {
-// 		let repoName = element.title;
-// 		let repoEl = document.createElement('div');
-// 		repoEl.classList = 'list-item flex-row justify-space-between align-center';
+		let temp = document.createElement('div');
+		temp.textContent = 'Temp: ' + cityData.list[j].main.temp;
+		let wind = document.createElement('div');
+		wind.textContent = 'Wind: ' + cityData.list[j].wind.speed + ' MPH';
+		let humidity = document.createElement('div');
+		humidity.textContent = 'Humidity: ' + cityData.list[j].main.humidity;
 
-// 		let titleEl = document.createElement('span');
-// 		titleEl.textContent = repoName;
+		if (i === 1) {
+			mainEl.appendChild(date);
+			mainEl.appendChild(temp);
+			mainEl.appendChild(wind);
+			mainContent.appendChild(mainEl);
+		} else if (i < 6 ) {
+			card.appendChild(date);
+			card.appendChild(temp);
+			card.appendChild(wind);
+			mainCard.appendChild(card);
+			mainContent.appendChild(mainCard);
+		} else {
+			mainContent.appendChild(mainCard);
+		}
+	}
+	// addToDate();
+};
 
-// 		repoEl.appendChild(titleEl);
-
-// 		let statusEl = document.createElement('span');
-// 		statusEl.classList = 'flex-row align-center';
-
-// 		//   if (repos[i].open_issues_count > 0) {
-// 		//     statusEl.innerHTML =
-// 		//       "<i class='fas fa-times status-icon icon-danger'></i>" + repos[i].open_issues_count + ' issue(s)';
-// 		//   } else {
-// 		//     statusEl.innerHTML = "<i class='fas fa-check-square status-icon icon-success'></i>";
-// 		//   }
-
-// 		repoEl.appendChild(statusEl);
-// 		repoContainerEl.appendChild(repoEl);
-// 	}
-// };
-
-cityWeatherForecast('reno');
-addToDate();
+cityWeatherForecast('Reno');
