@@ -3,6 +3,7 @@
 	margin: 0;
 }
 
+/* header */
 header {
 	text-align: center;
 	line-height: 5rem;
@@ -13,13 +14,16 @@ header {
 	color: black;
 }
 
-hr {
-	margin: 1rem 1rem 1rem 0;
-}
+/* main container */
 .container {
 	min-height: 100vh;
 	margin-left: 2rem;
 	display: flex;
+}
+
+/* aside */
+hr {
+	margin: 1rem 1rem 1rem 0;
 }
 
 .aside h2 {
@@ -41,6 +45,7 @@ button {
 	border-radius: 5px;
 }
 
+/* Weather forecast todays date */
 .dayOne {
 	border: 2px solid black;
 	/* width: 100rem; */
@@ -56,6 +61,7 @@ button {
 	padding-bottom: 1rem;
 }
 
+/* Five day forecast section*/
 .five_day_title {
 	margin: 1rem 0 1rem 2rem;
 }

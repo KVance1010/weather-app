@@ -1,4 +1,4 @@
-// global variables
+// global variables / selectors
 const cards = document.querySelector('.cards');
 const currentCity = document.querySelector('#displayedCity');
 const tempMain = document.querySelector('#tempMain');
