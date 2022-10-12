@@ -47,6 +47,7 @@ const cityWeatherForecast = function (city) {
 		.then(function (response) {
 			if (response.ok) {
 				response.json().then(function (cityData) {
+					console.log(cityData);
 					let lon = cityData.city.coord.lon;
 					let lat = cityData.city.coord.lat;
 					let lonLatURL =
@@ -116,7 +117,7 @@ const displayCity = function (cityData, city) {
 			date.setAttribute('id', curDate);
 		}else{
 			mainCard = document.createElement('div');
-			mainCard.setAttribute('class', 'cards');
+			mainCard.setAttribute('class', 'card');
 			card = document.createElement('div');
 			date = document.createElement('div');
 			date.setAttribute('id', curDate);
@@ -133,11 +134,13 @@ const displayCity = function (cityData, city) {
 			mainEl.appendChild(date);
 			mainEl.appendChild(temp);
 			mainEl.appendChild(wind);
+			mainEl.appendChild(humidity);
 			mainContent.appendChild(mainEl);
 		} else if (i < 6 ) {
 			card.appendChild(date);
 			card.appendChild(temp);
 			card.appendChild(wind);
+			card.appendChild(humidity);
 			mainCard.appendChild(card);
 			mainContent.appendChild(mainCard);
 		} else {
