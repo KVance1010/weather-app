@@ -1,8 +1,11 @@
-const mainContent = document.querySelector('#mainContent');
+// global variables
+const cards = document.querySelector('.cards');
+
+
 /******************************** functions    ***************************/
 
 // checks a local variable and creates a new local variable if one does not exist
-// const localStorageCities = function (city) {
+// let localStorageCities = function (city) {
 // 	let citySearched = JSON.parse(localStorage.getItem(cities));
 // 	if (citySearched === null) {
 // 		citySearched = [city];
@@ -15,27 +18,27 @@ const mainContent = document.querySelector('#mainContent');
 // 	}};
 
 // adds dates to the cards
-const addToDate = function () {
-	const mainDate = document.querySelector('#date1');
-	const day2 = document.querySelector('.date2');
-	const day3 = document.querySelector('.date3');
-	const day4 = document.querySelector('.date4');
-	const day5 = document.querySelector('.date5');
-	const day6 = document.querySelector('.date6');
+// const addToDate = function () {
+// 	const mainDate = document.querySelector('#date1');
+// 	const day2 = document.querySelector('.date2');
+// 	const day3 = document.querySelector('.date3');
+// 	const day4 = document.querySelector('.date4');
+// 	const day5 = document.querySelector('.date5');
+// 	const day6 = document.querySelector('.date6');
 
-	let currentDate = moment().add(0, 'days').format('L');
-	mainDate.textContent = ' ' + currentDate;
-	currentDate = moment().add(1, 'days').format('L');
-	day2.textContent = currentDate;
-	currentDate = moment().add(2, 'days').format('L');
-	day3.textContent = currentDate;
-	currentDate = moment().add(3, 'days').format('L');
-	day4.textContent = currentDate;
-	currentDate = moment().add(4, 'days').format('L');
-	day5.textContent = currentDate;
-	currentDate = moment().add(5, 'days').format('L');
-	day6.textContent = currentDate;
-};
+// 	let currentDate = moment().add(0, 'days').format('L');
+// 	mainDate.textContent = ' ' + currentDate;
+// 	currentDate = moment().add(1, 'days').format('L');
+// 	day2.textContent = currentDate;
+// 	currentDate = moment().add(2, 'days').format('L');
+// 	day3.textContent = currentDate;
+// 	currentDate = moment().add(3, 'days').format('L');
+// 	day4.textContent = currentDate;
+// 	currentDate = moment().add(4, 'days').format('L');
+// 	day5.textContent = currentDate;
+// 	currentDate = moment().add(5, 'days').format('L');
+// 	day6.textContent = currentDate;
+// };
 
 // fetch the weather url
 const cityWeatherForecast = function (city) {
@@ -47,7 +50,6 @@ const cityWeatherForecast = function (city) {
 		.then(function (response) {
 			if (response.ok) {
 				response.json().then(function (cityData) {
-					console.log(cityData);
 					let lon = cityData.city.coord.lon;
 					let lat = cityData.city.coord.lat;
 					let lonLatURL =
@@ -85,44 +87,12 @@ const displayCity = function (cityData, city) {
 		return;
 	}
 	let j = 5;
-	let date;
-		let cityName;
-		let fiveDayTitle;
-		let card;
-		let mainEl;
-		let mainCard;
 
 	for (let i = 1; i < 6; i++, j += 8) {
-		let curDate = 'date' + i;
-		if (i === 1) {
-			mainEl = document.createElement('div');
-			mainEl.setAttribute('class', 'dayOne');
-			mainEl.setAttribute('id', 'dayOne');
-			cityName = document.createElement('div');
-			cityName.setAttribute('id', 'displayedCity');
-			cityName.textContent = city;
-			date = document.createElement('span');
-			date.setAttribute('id', curDate);
-			cityName.appendChild(date);
-			mainEl.appendChild(cityName);
-		} else if (i === 2) {
-			fiveDayTitle = document.createElement('h2');
-			fiveDayTitle.setAttribute('class', 'five_day_title');
-			fiveDayTitle.textContent = '5-Day Forecast';
-			mainContent.appendChild(fiveDayTitle);
-			mainCard = document.createElement('div');
-			mainCard.setAttribute('class', 'cards');
-			card = document.createElement('div');
-			date = document.createElement('div');
-			date.setAttribute('id', curDate);
-		}else{
-			mainCard = document.createElement('div');
-			mainCard.setAttribute('class', 'card');
-			card = document.createElement('div');
-			date = document.createElement('div');
-			date.setAttribute('id', curDate);
-		}
-
+		let card = document.createElement('div');
+		card.setAttribute('class', 'card');
+		let date = document.createElement('div');
+		date.textContent = moment().add(i, 'days').format('L');
 		let temp = document.createElement('div');
 		temp.textContent = 'Temp: ' + cityData.list[j].main.temp;
 		let wind = document.createElement('div');
@@ -130,24 +100,12 @@ const displayCity = function (cityData, city) {
 		let humidity = document.createElement('div');
 		humidity.textContent = 'Humidity: ' + cityData.list[j].main.humidity;
 
-		if (i === 1) {
-			mainEl.appendChild(date);
-			mainEl.appendChild(temp);
-			mainEl.appendChild(wind);
-			mainEl.appendChild(humidity);
-			mainContent.appendChild(mainEl);
-		} else if (i < 6 ) {
-			card.appendChild(date);
-			card.appendChild(temp);
-			card.appendChild(wind);
-			card.appendChild(humidity);
-			mainCard.appendChild(card);
-			mainContent.appendChild(mainCard);
-		} else {
-			mainContent.appendChild(mainCard);
-		}
+		card.appendChild(date);
+		card.appendChild(temp);
+		card.appendChild(wind);
+		card.appendChild(humidity);
+		cards.appendChild(card);
 	}
-	// addToDate();
 };
 
 cityWeatherForecast('Reno');

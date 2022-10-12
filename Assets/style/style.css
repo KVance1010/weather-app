@@ -70,7 +70,7 @@ button {
 }
 
 .card {
-    padding: 10px;
+    padding: 10px 5px;
     font-size:16px;
 	border: solid 1px black;
 	background-color: rgb(36, 36, 58);
