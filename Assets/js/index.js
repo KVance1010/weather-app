@@ -5,6 +5,8 @@ const tempMain = document.querySelector('#tempMain');
 const windMain = document.querySelector('#windMain');
 const humidityMain = document.querySelector('#humidityMain');
 const cityList = document.querySelector('.cityList');
+const searchBtn = document.querySelector('.searchBtn');
+const citySearch = document.querySelector('#citySearch');
 
 /******************************** functions    ***************************/
 
@@ -72,13 +74,19 @@ const displayCity = function (cityData, city) {
 	currentCity.textContent = city + ' ' + moment().add(0, 'days').format('L');
 
 	let j = 5;
+	let child = cards.lastElementChild;
+	while (child) {
+		cards.removeChild(child);
+		child = cards.lastElementChild;
+	}
+
 	for (let i = 1; i < 6; i++, j += 8) {
 		let card = document.createElement('div');
 		card.setAttribute('class', 'card');
 		let date = document.createElement('div');
 		date.textContent = moment().add(i, 'days').format('L');
 		let temp = document.createElement('div');
-		temp.textContent = 'Temp: ' + cityData.list[j].main.temp;
+		temp.textContent = 'Temp: ' + cityData.list[j].main.temp + ' ' + String.fromCharCode(176) + 'F';
 		let wind = document.createElement('div');
 		wind.textContent = 'Wind: ' + cityData.list[j].wind.speed + ' MPH';
 		let humidity = document.createElement('div');
@@ -97,6 +105,11 @@ const displayCity = function (cityData, city) {
 const startUp = function () {
 	let cities = JSON.parse(localStorage.getItem('cities'));
 	if (cities) {
+		let child = cityList.lastElementChild;
+		while (child) {
+			cityList.removeChild(child);
+			child = cityList.lastElementChild;
+		}
 		for (const city of cities) {
 			let button = document.createElement('button');
 			button.textContent = city;
@@ -105,5 +118,19 @@ const startUp = function () {
 	}
 };
 
-cityWeatherForecast('Denver');
+// sets the current cityList
 startUp();
+
+/******************************** Event listeners    ***************************/
+cityList.addEventListener('click', (buttonClicked) => {
+	let reSearchCity = buttonClicked.target.textContent;
+	cityWeatherForecast(reSearchCity);
+});
+
+searchBtn.addEventListener('click', () => {
+	let newCity = citySearch.value;
+	if (newCity) {
+		citySearch.value = '';
+		cityWeatherForecast(newCity);
+	}
+});
