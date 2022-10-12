@@ -9,17 +9,18 @@ const humidityMain = document.querySelector('#humidityMain');
 /******************************** functions    ***************************/
 
 // checks a local variable and creates a new local variable if one does not exist
-// let localStorageCities = function (city) {
-// 	let citySearched = JSON.parse(localStorage.getItem(cities));
-// 	if (citySearched === null) {
-// 		citySearched = [city];
-// 		localStorage.setItem(cities, JSON.stringify(citySearched));
-// 	} else if(citySearched.indexof(city) = -1){
-// 		citySearched.push(city);
-// 		localStorage.setItem(cities, JSON.stringify(citySearched));
-// 	}else {
-// 		return;
-// 	}};
+let localStorageCities = function (city) {
+	let cities;
+	cities = JSON.parse(localStorage.getItem(cities));
+	if (cities === null) {
+		cities = [city];
+		localStorage.setItem(cities, JSON.stringify(cities));
+	} else if(cities.indexof(city) === -1){
+		cities.push(city);
+		localStorage.setItem(cities, JSON.stringify(cities));
+	}else {
+		return;
+	}};
 
 
 // fetch the weather url
@@ -45,7 +46,7 @@ const cityWeatherForecast = function (city) {
 					fetch(lonLatURL).then(function (response) {
 						if (response.ok) {
 							response.json().then(function (cityData) {
-								// localStorageCities(city);
+								localStorageCities(city);
 								displayCity(cityData, city);
 							});
 						} else {
@@ -70,8 +71,6 @@ const displayCity = function (cityData, city) {
 	}
 	currentCity.textContent = city + ' ' + moment().add(0, 'days').format('L');
 	
-
-
 	let j = 5;
 	for (let i = 1; i < 6; i++, j += 8) {
 		let card = document.createElement('div');
